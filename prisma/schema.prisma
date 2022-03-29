@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String
+  shippingTime String
+  status       String
+  addressId    String    @db.ObjectId
+  address      Address   @relation(fields: [addressId], references: [id])
+  openingHours Opening[]
+  Rate         Rate[]
+}
+
+model Rate {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  nps     String
+  date    DateTime
+  comment String
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id])
+}
+
+model Opening {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  startHour String
+  endHour   String
+  weekDay   String
+
+  Company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?  @db.ObjectId
+}
+
+model Address {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  street  String
+  city    String
+  country String
+
+  Company Company[]
+}
