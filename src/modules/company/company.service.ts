@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { prisma } from 'src/infra/database/prisma';
 import { CreateCompanyInput } from './dto/create-company.input';
 import { UpdateCompanyInput } from './dto/update-company.input';
 
@@ -9,18 +10,22 @@ export class CompanyService {
   }
 
   findAll() {
-    return `This action returns all company`;
+    return prisma.company.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  findOne(id: string) {
+    return prisma.company.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateCompanyInput: UpdateCompanyInput) {
+  update(id: string, updateCompanyInput: UpdateCompanyInput) {
     return `This action updates a #${id} company`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} company`;
   }
 }
