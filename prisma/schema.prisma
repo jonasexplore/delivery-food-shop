@@ -11,16 +11,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum CompanyStatus {
+  OPEN
+  CLOSED
+}
+
 model Company {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   description  String
   shippingTime String
-  status       String
-  addressId    String    @db.ObjectId
-  address      Address   @relation(fields: [addressId], references: [id])
-  openingHours Opening[]
+  status       CompanyStatus
+  addressId    String?        @db.ObjectId
+  address      Address?       @relation(fields: [addressId], references: [id])
+  openings     Opening[]
   Rate         Rate[]
+  DeliveryFees DeliveryFees[]
 }
 
 model Rate {
@@ -40,8 +46,8 @@ model Opening {
   endHour   String
   weekDay   String
 
-  Company   Company? @relation(fields: [companyId], references: [id])
-  companyId String?  @db.ObjectId
+  companyId String  @db.ObjectId
+  Company   Company @relation(fields: [companyId], references: [id])
 }
 
 model Address {
@@ -51,4 +57,13 @@ model Address {
   country String
 
   Company Company[]
+}
+
+model DeliveryFees {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  place  String
+  amount String
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id])
 }
