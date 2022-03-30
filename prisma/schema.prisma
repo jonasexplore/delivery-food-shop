@@ -19,11 +19,12 @@ enum CompanyStatus {
 model Company {
   id           String         @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  description  String
-  shippingTime String
-  status       CompanyStatus
-  addressId    String?        @db.ObjectId
-  address      Address?       @relation(fields: [addressId], references: [id])
+  description  String?
+  shippingTime String?
+  street       String?
+  city         String?
+  country      String?
+  status       CompanyStatus? @default(CLOSED)
   openings     Opening[]
   Rate         Rate[]
   DeliveryFees DeliveryFees[]
@@ -48,15 +49,6 @@ model Opening {
 
   companyId String  @db.ObjectId
   Company   Company @relation(fields: [companyId], references: [id])
-}
-
-model Address {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  street  String
-  city    String
-  country String
-
-  Company Company[]
 }
 
 model DeliveryFees {
