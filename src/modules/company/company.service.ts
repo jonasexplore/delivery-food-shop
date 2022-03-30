@@ -6,7 +6,9 @@ import { UpdateCompanyInput } from './dto/update-company.input';
 @Injectable()
 export class CompanyService {
   create(createCompanyInput: CreateCompanyInput) {
-    return 'This action adds a new company';
+    return prisma.company.create({
+      data: createCompanyInput,
+    });
   }
 
   findAll() {
@@ -22,10 +24,19 @@ export class CompanyService {
   }
 
   update(id: string, updateCompanyInput: UpdateCompanyInput) {
-    return `This action updates a #${id} company`;
+    return prisma.company.update({
+      where: {
+        id,
+      },
+      data: updateCompanyInput,
+    });
   }
 
   remove(id: string) {
-    return `This action removes a #${id} company`;
+    return prisma.company.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

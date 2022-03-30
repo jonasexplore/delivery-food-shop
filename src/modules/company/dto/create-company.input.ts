@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { CompanyStatus } from '../entities/company.entity';
 
 @InputType()
 export class CreateCompanyInput {
@@ -6,14 +7,20 @@ export class CreateCompanyInput {
   name: string;
 
   @Field(() => String)
-  description: string;
+  description?: string;
 
   @Field(() => String)
-  shippingTime: string;
+  shippingTime?: string;
 
   @Field(() => String)
-  status: string;
+  status?: CompanyStatus;
 
   @Field(() => String)
-  addressId: string;
+  street?: string;
+
+  @Field(() => String)
+  city?: string;
+
+  @Field(() => String)
+  country?: string;
 }

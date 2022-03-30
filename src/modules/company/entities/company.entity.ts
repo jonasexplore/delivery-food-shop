@@ -1,5 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
+export enum CompanyStatus {
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+}
+
 @ObjectType()
 export class Company {
   @Field(() => String)
@@ -9,14 +14,20 @@ export class Company {
   name: string;
 
   @Field(() => String)
-  description: string;
+  description?: string;
 
   @Field(() => String)
-  shippingTime: string;
+  shippingTime?: string;
 
   @Field(() => String)
-  status: string;
+  status?: CompanyStatus;
 
   @Field(() => String)
-  addressId: string;
+  street?: string;
+
+  @Field(() => String)
+  city?: string;
+
+  @Field(() => String)
+  country?: string;
 }

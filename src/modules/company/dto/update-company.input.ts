@@ -1,4 +1,5 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql';
+import { CompanyStatus } from '../entities/company.entity';
 import { CreateCompanyInput } from './create-company.input';
 
 @InputType()
@@ -10,14 +11,20 @@ export class UpdateCompanyInput extends PartialType(CreateCompanyInput) {
   name: string;
 
   @Field(() => String)
-  description: string;
+  description?: string;
 
   @Field(() => String)
-  shippingTime: string;
+  shippingTime?: string;
 
   @Field(() => String)
-  status: string;
+  status?: CompanyStatus;
 
   @Field(() => String)
-  addressId: string;
+  street?: string;
+
+  @Field(() => String)
+  city?: string;
+
+  @Field(() => String)
+  country?: string;
 }
