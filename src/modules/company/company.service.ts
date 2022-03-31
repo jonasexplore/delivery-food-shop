@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { prisma } from 'src/infra/database/prisma';
 import { CreateCompanyInput } from './dto/create-company.input';
 import { UpdateCompanyInput } from './dto/update-company.input';
 
 @Injectable()
 export class CompanyService {
   create(createCompanyInput: CreateCompanyInput) {
-    return 'This action adds a new company';
+    return prisma.company.create({
+      data: createCompanyInput,
+    });
   }
 
   findAll() {
-    return `This action returns all company`;
+    return prisma.company.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  findOne(id: string) {
+    return prisma.company.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateCompanyInput: UpdateCompanyInput) {
-    return `This action updates a #${id} company`;
+  update(id: string, updateCompanyInput: UpdateCompanyInput) {
+    return prisma.company.update({
+      where: {
+        id,
+      },
+      data: updateCompanyInput,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+  remove(id: string) {
+    return prisma.company.delete({
+      where: {
+        id,
+      },
+    });
   }
 }
